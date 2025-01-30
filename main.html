@@ -3,33 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Shortener</title>
+    <title>URL Shortener</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { padding: 10px; margin: 10px; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>Link Shortener</h1>
-    <form id="urlForm">
-        <input type="text" id="originalUrl" placeholder="your original url..." required>
-        <button type="submit">Shorten URL</button>
-    </form>
+    <h1>Simple URL Shortener</h1>
+    <input type="text" id="url" placeholder="Enter URL" required>
+    <button onclick="shortenURL()">Shorten</button>
+    <p id="result"></p>
 
     <script>
-        $('#urlForm').submit(function(event) {
-            event.preventDefault();
-            const originalUrl = $('#originalUrl').val();
-
-            $.ajax({
-            url: 'http://localhost:5000/api/shorten',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ url: originalUrl }),
-            success: function(data) {
-                console.log('Shortened URL:', data.shortenedUrl);
-            },
-            error: function(error) {
-                console.error('Error:', error);
+        function shortenURL() {
+            const url = document.getElementById("url").value;
+            if (!url) {
+                alert("Please enter a URL");
+                return;
             }
+            fetch("http://localhost:5000/shorten", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.shortened) {
+                    document.getElementById("result").innerHTML = 
+                        `Shortened URL: <a href="${data.shortened}" target="_blank">${data.shortened}</a>`;
+                } else {
+                    alert("Error shortening URL");
+                }
             });
-        });
+        }
     </script>
 </body>
-</html></html>
+</html>
