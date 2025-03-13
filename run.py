@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, render_template, request, jsonify, redirect
 from flask_cors import CORS
 import random, string
 
@@ -10,7 +10,11 @@ url_db = {}
 
 # Function to generate a short key
 def generate_short_key(length=6):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+    while True:
+        short_key = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+        if short_key not in url_db:
+            return short_key
+
 
 # Route to shorten a URL
 @app.route('/shorten', methods=['POST'])
@@ -28,13 +32,26 @@ def shorten_url():
     short_url = f"http://localhost:5000/{short_key}"  # Change this for production
     return jsonify({"shortened": short_url})
 
+
+
 # Redirect to the original URL
 @app.route('/<short_key>')
 def redirect_to_original(short_key):
+    
     original_url = url_db.get(short_key)
+
+    
+
     if original_url:
-        return redirect(original_url, code=302)
+        if not original_url.startswith(('http://', 'https://')):
+            original_url = 'http://' + original_url
+        return redirect(original_url)
+    else:
+        return render_template('errorpage.html')
+
     return "URL not found", 404
+
+
 
 # Run the Flask server
 if __name__ == '__main__':
