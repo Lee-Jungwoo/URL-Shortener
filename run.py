@@ -32,6 +32,20 @@ def shorten_url():
     short_url = f"http://localhost:5000/{short_key}"  # Change this for production
     return jsonify({"shortened": short_url})
 
+# Route to unshorten a URL
+@app.route('/unshorten', methods=['GET'])
+def unshorten_url():
+    
+    
+    shortened_url = request.args.get("url")
+
+    if not shortened_url:
+        return jsonify({"error": "No URL provided"}), 400
+    
+    short_key = shortened_url.split('/')[-1]
+    original_url = url_db.get(short_key) # unshortened url
+
+    return jsonify({"unshortened": original_url})
 
 
 # Redirect to the original URL
