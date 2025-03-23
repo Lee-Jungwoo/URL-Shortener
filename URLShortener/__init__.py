@@ -20,6 +20,8 @@ def add_db_to_app(app):
     return db
 
 
+
+
 app = create_app()
 db = add_db_to_app(app)
 app.register_blueprint(main_bp)
@@ -28,5 +30,3 @@ from . import models
 
 with app.app_context():
     db.create_all()  # Creates tables automatically based on models
-
-
