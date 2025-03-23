@@ -43,6 +43,7 @@ def shorten_url():
     new_url = URL(original_url=original_url, short_url=short_key)
     db.session.add(new_url)
     db.session.commit()
+    dprint("successfully saved to database")
 
     short_url = f"http://localhost:5000/{short_key}"  # Change this when production
     return jsonify({"shortened": short_url})
