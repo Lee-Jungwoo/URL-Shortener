@@ -1,59 +1,73 @@
-from . import app, db  # Import them from __init__.py
+import random
+import string
+from .db import db
+  # Import them from __init__.py
+from .models import URL  # Import the URL model
 from flask import request, jsonify, redirect, render_template
+from flask import Blueprint
 
+main_bp = Blueprint('main', __name__)
 
-# Import models here after db creation
 
 
 # Function to generate a short key
+# TODO: change the logic to use hashing -> which can make no collision
 def generate_short_key(length=6):
-    while True:
+    while True: # avoid collision
         short_key = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-        if short_key not in db:
+        # Check if short_key already exists in database
+        existing_url = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
+        if not existing_url:
             return short_key
 
 
 # Route to shorten a URL
-@app.route('/shorten', methods=['POST'])
+@main_bp.route('/shorten', methods=['POST'])
 def shorten_url():
-    
     data = request.json
     original_url = data.get("url")
 
     if not original_url:
         return jsonify({"error": "No URL provided"}), 400
 
+    # Check if URL already exists
+    # existing_url = db.session.execute(db.select(URL).filter_by(original_url=original_url)).first()
+    # if existing_url:
+    #     short_key = existing_url[0].short_url
+    # else:
     short_key = generate_short_key()
-    db[short_key] = original_url
+    new_url = URL(original_url=original_url, short_url=short_key)
+    db.session.add(new_url)
+    db.session.commit()
 
-    short_url = f"http://localhost:5000/{short_key}"  # Change this for production
+    short_url = f"http://localhost:5000/{short_key}"  # Change this when production
     return jsonify({"shortened": short_url})
 
 # Route to unshorten a URL
-@app.route('/unshorten', methods=['GET'])
+@main_bp.route('/unshorten', methods=['GET'])
 def unshorten_url():
-    
-    
     shortened_url = request.args.get("url")
 
     if not shortened_url:
         return jsonify({"error": "No URL provided"}), 400
     
     short_key = shortened_url.split('/')[-1]
-    original_url = db.get(short_key) # unshortened url
-
-    return jsonify({"unshortened": original_url})
+    url_record = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
+    
+    if url_record:
+        original_url = url_record[0].original_url
+        return jsonify({"unshortened": original_url})
+    else:
+        return jsonify({"error": "URL not found"}), 404
 
 
 # Redirect to the original URL
-@app.route('/<short_key>')
+@main_bp.route('/<short_key>')
 def redirect_to_original(short_key):
+    url_record = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
     
-    original_url = db.get(short_key)
-
-    
-
-    if original_url:
+    if url_record:
+        original_url = url_record[0].original_url
         if not original_url.startswith(('http://', 'https://')):
             original_url = 'http://' + original_url
         return redirect(original_url)
