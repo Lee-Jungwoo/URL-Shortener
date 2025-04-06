@@ -5,7 +5,7 @@ from .db import db
 from .models import URL  # Import the URL model
 from flask import request, jsonify, redirect, render_template
 from flask import Blueprint
-from .debug_print import dprint
+from ..log.debug_print import dprint
 
 main_bp = Blueprint('main', __name__)
 
