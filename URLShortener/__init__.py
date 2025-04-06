@@ -2,7 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from .db import db
 from .main import main_bp
+import conf.config_loader as config_loader
 import json
+
 
 
 
@@ -12,14 +14,18 @@ def create_app():
     Create and configure the Flask application.
     """
     app = Flask(__name__)
+    app.config.from_object
     CORS(app)
     return app
 
 
 def add_db_to_app(app):
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:0225@localhost/urlshortener'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:0225@localhost/urlshortener'
+    app.config['SQLALCHEMY_DATABASE_URI'] = config_loader.get('db_url', app.config['DEBUG'])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    print(config_loader.get('db_url', app.config['DEBUG']))
     db.init_app(app)
     return db
 
