@@ -2,30 +2,34 @@ from flask import Flask
 from flask_cors import CORS
 from .db import db
 from .main import main_bp
-import conf.config_loader as config_loader
-import json
+from log.debug_print import dprint
+import os
+from dotenv import load_dotenv
 
-
-
-
+load_dotenv('../.env')  # Load environment variables from .env file
 
 def create_app():
     """
     Create and configure the Flask application.
     """
     app = Flask(__name__)
-    app.config.from_object
+    
     CORS(app)
+    environ = os.environ.get('FLASK_ENV')
+    
+    if environ == 'production':
+        app.config.from_object('conf.config.ProductionConfig')
+    elif environ == 'testing':
+        app.config.from_object('conf.config.TestingConfig')
+    elif environ == 'development':   # Default to development
+        app.config.from_object('conf.config.DevelopmentConfig')
+
     return app
 
-
 def add_db_to_app(app):
-    
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:0225@localhost/urlshortener'
-    app.config['SQLALCHEMY_DATABASE_URI'] = config_loader.get('db_url', app.config['DEBUG'])
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    print(config_loader.get('db_url', app.config['DEBUG']))
+    """
+    Initialize the database with the Flask app.
+    """
     db.init_app(app)
     return db
 
@@ -33,6 +37,10 @@ def add_db_to_app(app):
 
 
 app = create_app()
+cfg = app.config.copy()
+
+dprint(cfg)
+
 db = add_db_to_app(app)
 app.register_blueprint(main_bp)
 

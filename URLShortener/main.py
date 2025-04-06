@@ -1,11 +1,13 @@
 import random
 import string
 from .db import db
-  # Import them from __init__.py
 from .models import URL  # Import the URL model
-from flask import request, jsonify, redirect, render_template
+from flask import request, jsonify, redirect, current_app
 from flask import Blueprint
 from log.debug_print import dprint
+
+
+
 
 main_bp = Blueprint('main', __name__)
 
@@ -45,7 +47,7 @@ def shorten_url():
     db.session.commit()
     dprint("successfully saved to database")
 
-    short_url = f"http://localhost:5000/{short_key}"  # Change this when production
+    short_url = f"{current_app.config['API_URL']}/{short_key}"  # Change this when production
     return jsonify({"shortened": short_url})
 
 # Route to unshorten a URL
@@ -92,4 +94,4 @@ def redirect_to_original(short_key):
         return redirect(original_url)
     else:
         dprint("original url not found.... sending to error page")
-        return redirect('http://localhost:5500/URLShortener/templates/errorpage.html')
+        return redirect(f"{current_app.config['CLIENT_URL']}/URLShortener/templates/errorpage.html")
