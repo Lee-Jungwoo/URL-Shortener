@@ -1,10 +1,12 @@
+
+
 function shortenURL() {
     const url = document.getElementById("url").value;
     if (!url) {
       alert("Please enter a URL");
       return;
     }
-    fetch("http://localhost:5000/shorten", {
+    fetch(conf.local.api_url, {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({ url: url }),
@@ -19,6 +21,8 @@ function shortenURL() {
           alert("Error shortening URL");
         }
       });
+
+    console.log(conf.local);
   }
 
 function unshortenURL() {
@@ -27,7 +31,7 @@ function unshortenURL() {
         alert("Please enter a URL");
         return;
     }
-    fetch("http://localhost:5000/unshorten?" + new URLSearchParams({url: url}), {
+    fetch(`${conf.local.api_url}/unshorten?` + new URLSearchParams({url: url}), {
         method: "GET",
         headers: { "Content-Type": "application/json" },
     }).then((response) => response.json())
