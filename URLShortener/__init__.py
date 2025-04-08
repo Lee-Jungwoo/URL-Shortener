@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from .db import db
 from .main import main_bp
+from .redirect import redirect_bp
 from log.debug_print import dprint
 import os
 from dotenv import load_dotenv
@@ -43,6 +44,7 @@ dprint(cfg)
 
 db = add_db_to_app(app)
 app.register_blueprint(main_bp)
+app.register_blueprint(redirect_bp)
 
 from . import models
 
