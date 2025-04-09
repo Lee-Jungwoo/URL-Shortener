@@ -1,13 +1,15 @@
 import random
 import string
 from .db import db
-  # Import them from __init__.py
 from .models import URL  # Import the URL model
-from flask import request, jsonify, redirect, render_template
+from flask import request, jsonify, redirect, current_app
 from flask import Blueprint
-from ..log.debug_print import dprint
+from log.debug_print import dprint
 
-main_bp = Blueprint('main', __name__)
+
+
+
+main_bp = Blueprint('main', __name__, url_prefix='/api')
 
 
 
@@ -45,7 +47,7 @@ def shorten_url():
     db.session.commit()
     dprint("successfully saved to database")
 
-    short_url = f"http://localhost:5000/{short_key}"  # Change this when production
+    short_url = f"{current_app.config['REDIRECT_URL']}/{short_key}"  # Change this when production
     return jsonify({"shortened": short_url})
 
 # Route to unshorten a URL
@@ -70,26 +72,3 @@ def unshorten_url():
         return jsonify({"error": "URL not found"}), 404
 
 
-# Redirect to the original URL
-@main_bp.route('/<short_key>')
-def redirect_to_original(short_key):
-    url_record = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
-    
-
-    dprint(f"I have to redirect using: {short_key}")
-    
-
-    if url_record:
-        dprint(f"original url fetched from database: {url_record[0].original_url}")
-        original_url = url_record[0].original_url
-        if not original_url.startswith(('http://', 'https://')):
-            original_url = 'http://' + original_url # `original_url` is not overriden 
-                                                    # because it is in the same scope as above.
-                                                    # prepend http:// because most sites automatically
-                                                    # redirect to https://.
-                                                    # TODO: make this more robust
-        dprint(f"Redirecting to: {original_url}")
-        return redirect(original_url)
-    else:
-        dprint("original url not found.... sending to error page")
-        return redirect('http://localhost:5500/URLShortener/templates/errorpage.html')
