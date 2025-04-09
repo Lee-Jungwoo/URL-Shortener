@@ -22,8 +22,10 @@ def create_app():
         app.config.from_object('conf.config.ProductionConfig')
     elif environ == 'testing':
         app.config.from_object('conf.config.TestingConfig')
-    elif environ == 'development':   # Default to development
+    elif environ == 'development':   #
         app.config.from_object('conf.config.DevelopmentConfig')
+    else:
+        dprint("No environment variable set. Defaulting to DevelopmentConfig.")
 
     return app
 
