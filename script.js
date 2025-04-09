@@ -16,7 +16,7 @@ function shortenURL() {
         if (data.shortened) {
           document.getElementById(
             "result"
-          ).innerHTML = `Shortened URL: <a href="${data.shortened}" target="_blank">${data.shortened}</a>`;
+          ).innerHTML = `Shortened URL: <a href="https://${data.shortened}" target="_blank">${data.shortened}</a>`;
         } else {
           alert("Error shortening URL");
         }
