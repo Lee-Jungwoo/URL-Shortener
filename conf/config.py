@@ -7,9 +7,12 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://admin:0225@localhost/urlshortener"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    CLIENT_URL = "https://linkshorty.in"
+    # CLIENT_URL = "https://linkshorty.in"
+    # REDIRECT_URL = "https://linkshorty.in"
+    CLIENT_URL = "linkshorty.in"
     API_URL = "https://linkshorty.in/api"
-    REDIRECT_URL = "https://linkshorty.in"
+    REDIRECT_URL = "linkshorty.in"
+    # deleted https:// from the URLs to look shorter when displayed on web
 
 class DevelopmentConfig(Config):
     """
