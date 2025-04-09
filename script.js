@@ -6,7 +6,7 @@ function shortenURL() {
       alert("Please enter a URL");
       return;
     }
-    fetch(`${conf.local.api_url}/shorten`, { // change to production URL
+    fetch(`${conf.production.api_url}/shorten`, { // change to production URL
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({ url: url }),
@@ -29,7 +29,7 @@ function unshortenURL() {
         alert("Please enter a URL");
         return;
     }
-    fetch(`${conf.local.api_url}/unshorten?` + new URLSearchParams({url: url}), { // change to production URL
+    fetch(`${conf.production.api_url}/unshorten?` + new URLSearchParams({url: url}), { // change to production URL
         method: "GET",
         headers: { "Content-Type": "application/json" },
     }).then((response) => response.json())
