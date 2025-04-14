@@ -6,7 +6,7 @@ class URL(db.Model): # table 'URLS'
     __tablename__ = 'urls'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    original_url: Mapped[str] = mapped_column(String(500))
+    original_url: Mapped[str] = mapped_column(String(2000))
     short_url: Mapped[str] = mapped_column(String(30), unique=True)
     
 
