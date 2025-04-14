@@ -8,6 +8,5 @@ conf = {
         "client_url": "https://linkshorty.in",
         "api_url": "https://linkshorty.in/api",
         "redirect_url": "https://linkshorty.in"
-    },
-    "db_url": "mysql+pymysql://admin:0225@localhost/urlshortener"
+    }
 }
