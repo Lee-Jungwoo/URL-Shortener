@@ -25,9 +25,12 @@
             <button type="button" class="btn btn-primary" onclick="shortenURL()">Shorten</button>
             <button type="button" class="btn btn-secondary" onclick="unshortenURL()">Unshorten</button>
         </div>
-        <div class="mt-3">
+        <div class="mt-3" id = "url-block" style="display: none;">
             <p id="result"></p>
+            <button type="button" class="btn btn-light" id="copy-button" onclick="toggleCopy()">Copy</button>
+            <!-- <button type="button" class="btn btn-success">Copied</button> -->
         </div>
+
       </div>
     </div>
     <script src="./conf/conf.js"></script>

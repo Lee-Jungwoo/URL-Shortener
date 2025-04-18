@@ -20,9 +20,9 @@ class DevelopmentConfig(Config):
     """
     DEBUGGING = True
 
-    CLIENT_URL = "http://localhost:5500"
+    CLIENT_URL = "localhost:5500"
     API_URL = "http://localhost:5000/api"
-    REDIRECT_URL = "http://localhost:5000"
+    REDIRECT_URL = "localhost:5000"
 
 class ProductionConfig(Config):
     """
