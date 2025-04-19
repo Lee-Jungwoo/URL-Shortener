@@ -10,9 +10,6 @@ from log.debug_print import dprint
 
 
 main_bp = Blueprint('main', __name__, url_prefix='/api')
-
-
-
 # Function to generate a short key
 # TODO: change the logic to use hashing -> which can make no collision
 def generate_short_key(length=6):
@@ -29,19 +26,29 @@ def generate_short_key(length=6):
 @main_bp.route('/shorten', methods=['POST'])
 def shorten_url():
     data = request.json
+    
     original_url = data.get("url")
-
+    custom_key = data.get("custom_key")
+    
     if not original_url:
         return jsonify({"error": "No URL provided"}), 400
-
-    # Check if URL already exists
-    #### Not needed: shortened URLs must be unique for security.
-    # existing_url = db.session.execute(db.select(URL).filter_by(original_url=original_url)).first()
-    # if existing_url:
-    #     short_key = existing_url[0].short_url
-    # else:
+    
     dprint(f"Just got a url....: {original_url}")
-    short_key = generate_short_key()
+
+    if custom_key:
+        db_key = db.session.execute(db.select(URL).filter_by(short_url=custom_key)).first()
+        if db_key:
+            return jsonify({"error": "Custom key already exists"}), 400
+        else:
+            dprint(f"Custom key provided: {custom_key}")
+            short_key = custom_key
+    else:
+        dprint("No custom key provided")
+        dprint("Generating a new short key...")
+        short_key = generate_short_key()
+        dprint(f"Generated short key: {short_key}")
+    
+    
     new_url = URL(original_url=original_url, short_url=short_key)
     db.session.add(new_url)
     db.session.commit()
