@@ -1,7 +1,5 @@
 // change 'local' to 'production' for production use
 
-
-
 function shortenURL(custom=false) { //shortens and shows url block
 
     // 1. shortens URL

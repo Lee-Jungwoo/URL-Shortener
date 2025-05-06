@@ -33,7 +33,7 @@ def shorten_url():
     if not original_url:
         return jsonify({"error": "No URL provided"}), 400
     
-    dprint(f"Just got a url....: {original_url}")
+    dprint(f"Just got a url....: {original_url}\nfrom IP: {request.remote_addr}")
 
     if custom_key:
         db_key = db.session.execute(db.select(URL).filter_by(short_url=custom_key)).first()
@@ -68,7 +68,7 @@ def unshorten_url():
     
     short_key = shortened_url.split('/')[-1]
 
-    dprint(f"Just got a short url....: {shortened_url}")
+    dprint(f"Just got a short url....: {shortened_url}\nfrom IP: {request.remote_addr}")
     url_record = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
     
     if url_record:
