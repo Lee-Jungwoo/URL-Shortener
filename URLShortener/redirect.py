@@ -21,7 +21,9 @@ redirect_bp = Blueprint('redirect', __name__)
 def redirect_to_original(short_key):
     url_record = db.session.execute(db.select(URL).filter_by(short_url=short_key)).first()
 
-    dprint(f"Should redirect using: {short_key}\nfrom IP: {request.remote_addr}")
+    # Get the real IP address from X-Forwarded-For header if behind a proxy
+    ip_addr = request.headers.get('X-Forwarded-For', request.remote_addr)
+    dprint(f"Should redirect using: {short_key}\nfrom IP: {ip_addr}")
     
 
     if url_record:
