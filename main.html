@@ -1,44 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LinkShorty</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css"/>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      as="style"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B600%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      onload="this.rel='stylesheet'"
       rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
     />
+    <title>LinkShorty - URL Shortener</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+      .gradient-bg {
+        background: linear-gradient(180deg, #ffffff 0%, #ebf2fa 100%);
+      }
+    </style>
   </head>
-  <body>
-    <div class="container text-center">
-      <div class="row row-cols-1">
-        <div>
-            <h1>LinkShorty</h1>
-            <h3>Simple URL Shortener</h3>
-        </div>
-        <div class="mb-3">
-            <input type="text" id="url" class="form-control" placeholder="Enter URL" required/>
-            <input type="text" id="custom-key" class="form-control" placeholder="Enter Custom Tag (less than 30 characters)" style="display: none;"/>
-        </div>
-        <div class="mb-3">
-            <button type="button" class="btn btn-primary" onclick="shortenURL()">Shorten</button>
-            <button type="button" class="btn btn-primary" onclick="toggleCustom()">Shorten (with Custom Tag)</button>
-            <button type="button" class="btn btn-info" onclick="unshortenURL()">Unshorten</button>
-        </div>
-        <div class="mt-3" id = "url-block" style="display: none;">
-            <p id="result"></p>
-            <button type="button" class="btn btn-light" id="copy-button" onclick="toggleCopy()">Copy</button>
-        </div>
+  <body class="gradient-bg">
+    <div
+      class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+      style="font-family: Inter, 'Noto Sans', sans-serif"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <header
+          class="flex items-center justify-between whitespace-nowrap px-10 py-6"
+        >
+          <div class="flex items-center gap-3 text-slate-900">
+            <svg
+              class="size-7 text-[#0A74DA]"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.46473 8.46446C8.46473 6.00351 10.4682 4 12.9292 4C15.3901 4 17.3936 6.00351 17.3936 8.46446C17.3936 10.9254 15.3901 12.9289 12.9292 12.9289H8.46473V8.46446Z"
+              ></path>
+              <path
+                d="M15.5352 15.5355C15.5352 17.9965 13.5318 20 11.0708 20C8.60987 20 6.60637 17.9965 6.60637 15.5355C6.60637 13.0746 8.60987 11.0711 11.0708 11.0711H15.5352V15.5355Z"
+              ></path>
+            </svg>
+            <h2
+              class="text-slate-900 text-xl font-bold leading-tight tracking-tight"
+            >
+              LinkShort
+            </h2>
+          </div>
+          <nav class="flex items-center gap-6 text-slate-700">
+            <a
+              class="text-sm font-medium hover:text-[#0A74DA] transition-colors"
+              href="#"
+              >Home</a
+            >
+            <a
+              class="text-sm font-medium hover:text-[#0A74DA] transition-colors"
+              href="#"
+              >Pricing</a
+            >
+            <a
+              class="text-sm font-medium hover:text-[#0A74DA] transition-colors"
+              href="#"
+              >Features</a
+            >
+            <a
+              class="text-sm font-medium hover:text-[#0A74DA] transition-colors"
+              href="#"
+              >Contact</a
+            >
+          </nav>
+          <div class="flex items-center gap-3">
+            <button
+              class="flex min-w-[90px] items-center justify-center rounded-lg h-10 px-5 bg-transparent text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors"
+            >
+              <span>Log In</span>
+            </button>
+            <button
+              class="flex min-w-[90px] items-center justify-center rounded-lg h-10 px-5 bg-[#0A74DA] text-white text-sm font-semibold hover:bg-[#0968C3] transition-colors shadow-sm"
+            >
+              <span>Sign Up</span>
+            </button>
+          </div>
+        </header>
+        <main
+          class="flex flex-1 flex-col items-center justify-center py-12 px-4"
+        >
+          <div class="w-full max-w-2xl text-center">
+            <h1 class="text-5xl font-bold tracking-tight text-slate-900 mb-6">
+              Shorten Your Links, Expand Your Reach
+            </h1>
+            <p class="text-lg text-slate-600 mb-10">
+              Create clean, memorable short URLs. Paste your long link below to
+              get started.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full">
+              <label class="flex-1 w-full">
+                <span class="sr-only">Paste a long URL</span>
+                <input
+                  class="form-input flex w-full resize-none overflow-hidden rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0A74DA] border border-slate-300 bg-white h-16 placeholder:text-slate-400 p-5 text-base font-normal leading-normal shadow-sm"
+                  placeholder="Paste your long URL here"
+                  value=""
+                />
+              </label>
+              <button
+                class="flex w-full sm:w-auto min-w-[120px] items-center justify-center rounded-xl h-16 px-8 bg-[#0A74DA] text-white text-lg font-semibold hover:bg-[#0968C3] transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-[#0A74DA] focus:ring-offset-2"
+              >
+                <span class="truncate">Shorten</span>
+              </button>
+            </div>
+            <div class="mt-8 text-sm text-slate-500">
+              By using LinkShorty, you agree to our
+              <a class="underline hover:text-[#0A74DA]" href="#"
+                >Terms of Service</a
+              >.
+            </div>
+          </div>
+        </main>
+        <footer
+          class="px-10 py-8 text-center text-sm text-slate-500 border-t border-slate-200"
+        >
+          © 2025 LinkShorty. All rights reserved.
+        </footer>
       </div>
     </div>
-    <script src="./conf/conf.js"></script>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
   </body>
 </html>

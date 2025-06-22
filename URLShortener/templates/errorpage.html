@@ -1,38 +1,76 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Error</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        
-    </style>
+  <head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
     <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous"
+      as="style"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      onload="this.rel='stylesheet'"
+      rel="stylesheet"
     />
-</head>
-<body>
-    <div class="row row-cols-1">
-        <div class="error-message">
-            <p class="text-break fw-bold fs-1">There is an error on your link!<br>
-            Please Try Again.</p>
-        </div>
-        <div>
-            <a href="/main.html" class="btn btn-primary" target="_self">Go Home</a>
-        </div>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Error - LinkShorty</title>
+    <link href="/favicon.png" rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #0b80ee;
+        --secondary-color: #f0f2f5;
+        --text-primary: #111518;
+        --text-secondary: #6b7280;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .material-icons {
+        font-size: inherit;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-[var(--text-primary)]">
+    <div
+      class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--secondary-color)] px-6 sm:px-10 py-4"
+        >
+          <div class="flex items-center gap-3 text-[var(--text-primary)]">
+            <img src="/favicon.png" class="w-8 h-8"/>
+            <h1 class="text-xl font-bold tracking-tight">LinkShorty</h1>
+          </div>
+        </header>
+        <main
+          class="flex flex-1 justify-center items-center px-4 sm:px-6 lg:px-8 py-10"
+        >
+          <div
+            class="flex flex-col items-center gap-8 w-full max-w-md text-center"
+          >
+            <div class="text-8xl text-[var(--primary-color)]">
+                <img src="/error_link.png" class="w-20 h-20"/>   
+            </div>
+            <div class="flex flex-col gap-3">
+              <h2 class="text-3xl font-bold tracking-tight">
+                Oops! Link Not Found
+              </h2>
+              <p class="text-[var(--text-secondary)] text-base">
+                The short URL you're trying to access doesn't exist or may have
+                been removed. Please double-check the link or contact the link provider for assistance.
+              </p>
+            </div>
+            <a
+              class="flex items-center justify-center gap-2 min-w-[84px] w-full sm:w-auto cursor-pointer rounded-lg h-12 px-6 bg-[var(--primary-color)] text-white text-base font-medium shadow-sm hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2"
+              href="#"
+            >
+              <span class="material-icons">add_link</span>
+              <span>Create a new short URL</span>
+            </a>
+          </div>
+        </main>
+      </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
-</body>
+  </body>
 </html>
