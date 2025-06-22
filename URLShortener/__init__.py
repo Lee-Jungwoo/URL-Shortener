@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from .db import db
 from .main import main_bp
@@ -19,11 +19,11 @@ def create_app():
     environ = os.environ.get('FLASK_ENV')
     
     if environ == 'production':
-        app.config.from_object('conf.config.ProductionConfig')
+        app.config.from_object('config.ProductionConfig')
     elif environ == 'testing':
-        app.config.from_object('conf.config.TestingConfig')
+        app.config.from_object('config.TestingConfig')
     elif environ == 'development':   #
-        app.config.from_object('conf.config.DevelopmentConfig')
+        app.config.from_object('config.DevelopmentConfig')
     else:
         dprint("No environment variable set. Defaulting to DevelopmentConfig.")
 
@@ -47,6 +47,10 @@ dprint(cfg)
 db = add_db_to_app(app)
 app.register_blueprint(main_bp)
 app.register_blueprint(redirect_bp)
+
+@app.route('/')
+def main():
+    return render_template('main.html')
 
 from . import models
 

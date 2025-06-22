@@ -13,7 +13,7 @@
       rel="stylesheet"
     />
     <title>Error - LinkShorty</title>
-    <link href="/favicon.png" rel="icon" type="image/x-icon" />
+    <link href="{{ url_for('static', filename='favicon.png') }}" rel="icon" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style type="text/tailwindcss">
       :root {
@@ -39,7 +39,7 @@
           class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--secondary-color)] px-6 sm:px-10 py-4"
         >
           <div class="flex items-center gap-3 text-[var(--text-primary)]">
-            <img src="/favicon.png" class="w-8 h-8"/>
+            <img src="{{ url_for('static', filename='favicon.png') }}" class="w-8 h-8"/>
             <h1 class="text-xl font-bold tracking-tight">LinkShorty</h1>
           </div>
         </header>
@@ -50,7 +50,7 @@
             class="flex flex-col items-center gap-8 w-full max-w-md text-center"
           >
             <div class="text-8xl text-[var(--primary-color)]">
-                <img src="/error_link.png" class="w-20 h-20"/>   
+                <img src="{{ url_for('static', filename='error_link.png') }}" class="w-20 h-20"/>   
             </div>
             <div class="flex flex-col gap-3">
               <h2 class="text-3xl font-bold tracking-tight">
@@ -63,7 +63,7 @@
             </div>
             <a
               class="flex items-center justify-center gap-2 min-w-[84px] w-full sm:w-auto cursor-pointer rounded-lg h-12 px-6 bg-[var(--primary-color)] text-white text-base font-medium shadow-sm hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2"
-              href="#"
+              href="http://localhost:5500/main.html"
             >
               <span class="material-icons">add_link</span>
               <span>Create a new short URL</span>

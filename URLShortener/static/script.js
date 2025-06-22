@@ -1,5 +1,7 @@
 // change 'local' to 'production' for production use
 
+
+
 function shortenURL(custom=false) { //shortens and shows url block
 
     // 1. shortens URL
@@ -9,39 +11,39 @@ function shortenURL(custom=false) { //shortens and shows url block
 
 
     const url = document.getElementById("url").value;
-    const custom_key = document.getElementById("custom-key").value;
+
+    
     let requestbody = {url: url};
+    
     if (custom) {
+      const custom_key = document.getElementById("custom-key").value;
       if(custom_key.length == 0) {
+
         alert("Please enter a custom key");
         return;
       }
-      requestbody.custom_key = custom_key;
+      
+      requestbody.custom_key = document.getElementById("custom-key").value;
+    }else {
+      requestbody.custom_key = "";
     }
     if (!url) {
       alert("Please enter a URL");
       return;
     }
 
-    fetch(`${conf.local.api_url}/shorten`, { // change to production URL
-      method: "POST",
+    fetch(`${conf.local.api_url}/shorten?` + new URLSearchParams(requestbody), { // change to production URL
+      method: "GET",
       headers: { "Content-Type": "application/json"},
-      body: JSON.stringify(requestbody),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.shortened) {
-          
-          let b = document.getElementById("url-block");
-          let p = document.getElementById("result");
-          
-          p.innerHTML = `Shortened URL: <a href="http://${data.shortened}" target="_blank">${data.shortened}</a>`;
-          b.style.display = "block"
-
-        } else {
-          alert(`Error shortening URL: ${data.error}`);
-        }
-      });
+      
+    }).then(response => {
+      if(response.redirected){
+        window.location.href = response.url;
+      }
+    }).catch(error => {
+      console.error("Error:", error);
+      alert("An error occurred while shortening the URL. Please try again.");
+    });
     
   }
 

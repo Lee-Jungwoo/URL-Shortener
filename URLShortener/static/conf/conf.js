@@ -1,6 +1,6 @@
 conf = {
     "local": {
-        "client_url": "http://localhost:5500",
+        "client_url": "http://localhost:5000",
         "api_url": "http://localhost:5000/api",
         "redirect_url": "http://localhost:5000"
     },
