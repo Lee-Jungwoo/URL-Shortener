@@ -32,7 +32,7 @@ function shortenURL(custom=false) { //shortens and shows url block
       return;
     }
 
-    fetch(`${conf.local.api_url}/shorten?` + new URLSearchParams(requestbody), { // change to production URL
+    fetch(`${conf.production.api_url}/shorten?` + new URLSearchParams(requestbody), { // change to production URL
       method: "GET",
       headers: { "Content-Type": "application/json"},
       
@@ -53,7 +53,7 @@ function unshortenURL() {
         alert("Please enter a URL");
         return;
     }
-    fetch(`${conf.local.api_url}/unshorten?` + new URLSearchParams({url: url}), { // change to production URL
+    fetch(`${conf.production.api_url}/unshorten?` + new URLSearchParams({url: url}), { // change to production URL
         method: "GET",
         headers: { "Content-Type": "application/json" },
     }).then((response) => response.json())
