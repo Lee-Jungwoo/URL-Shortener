@@ -13,7 +13,7 @@ function shortenURL(custom=false) { //shortens and shows url block
     const url = document.getElementById("url").value;
 
     
-    let requestbody = {url: url};
+    let requestbody = {url: url, custom_key: ""};
     
     if (custom) {
       const custom_key = document.getElementById("custom-key").value;
@@ -23,10 +23,9 @@ function shortenURL(custom=false) { //shortens and shows url block
         return;
       }
       
-      requestbody.custom_key = document.getElementById("custom-key").value;
-    }else {
-      requestbody.custom_key = "";
+      requestbody.custom_key = custom_key;
     }
+
     if (!url) {
       alert("Please enter a URL");
       return;
