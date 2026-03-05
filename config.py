@@ -4,7 +4,7 @@ class Config(object):
     """
     DEBUGGING = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://admin:0225@localhost/urlshortener"
+    SQLALCHEMY_DATABASE_URI = ""
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # CLIENT_URL = "https://linkshorty.in"
